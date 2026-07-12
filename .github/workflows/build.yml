@@ -1,17 +1,14 @@
-name: ZMK build & draw
+name: Build firmware and keymap
 
 on:
   workflow_dispatch:
   push:
-    # ZMKビルド用（必要なら他のパスも追加OK）
     paths:
       - "config/**"
       - "boards/**"
       - "zephyr/**"
       - "build.yaml"
-      # keymap-drawer も同じpushで動かす
-      - "config/*.keymap"
-      - "config/*.dtsi"
+      - ".github/workflows/build.yml"
       - "keymap_drawer.config.yaml"
   pull_request:
     paths:
@@ -19,31 +16,25 @@ on:
       - "boards/**"
       - "zephyr/**"
       - "build.yaml"
-      - "config/*.keymap"
-      - "config/*.dtsi"
+      - ".github/workflows/build.yml"
       - "keymap_drawer.config.yaml"
 
-jobs:
-  # 既存の ZMK ユーザ設定ビルド
-  build:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
+permissions:
+  contents: read
 
-  # keymap-drawer で .keymap → YAML/SVG を自動生成してコミット
+concurrency:
+  group: firmware-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3.0
+
   draw:
-    # ビルドと独立でOK。ビルド後に実行したい場合は下の needs を有効化
-    # needs: build
-    uses: caksoylar/keymap-drawer/.github/workflows/draw-zmk.yml@main
+    uses: caksoylar/keymap-drawer/.github/workflows/draw-zmk.yml@v0.22.1
     permissions:
-      contents: write   # 生成物を自動コミットするため
+      contents: write
     with:
-      # tiny18 リポジトリは標準構成なので *.keymap で十分
       keymap_patterns: "config/*.keymap"
-      # あれば適用、無ければ無視されます
       config_path: "keymap_drawer.config.yaml"
-      # 生成物の出力先（SVG と YAML）
       output_folder: "keymap-drawer"
-      # 任意: コミットメッセージや運用を調整したい場合は以下を解放
-      # commit_message: "[Draw] ${{ github.event.head_commit.message }}"
-      # amend_commit: false
-      # parse_args: ""   # 例: "tiny18:''"
-      # draw_args: ""    # 例: "tiny18:'--dts-layout zephyr/<path>.dts'"
