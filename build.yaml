@@ -22,9 +22,11 @@ include:
     shield: tiny18_r rgbled_adapter
     snippet: studio-rpc-usb-uart
     cmake-args: -DCONFIG_ZMK_STUDIO=y
+    artifact-name: tiny18-right
   - board: seeeduino_xiao_ble
     shield: tiny18_l rgbled_adapter
+    artifact-name: tiny18-left
 
-  # ← リセット用ファーム
   - board: seeeduino_xiao_ble
     shield: settings_reset
+    artifact-name: settings-reset

@@ -1,0 +1,50 @@
+name: Release firmware
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3.0
+
+  release:
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - name: Download firmware
+        uses: actions/download-artifact@v4
+        with:
+          name: firmware
+          path: dist
+
+      - name: Verify expected files and create checksums
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected=(settings-reset.uf2 tiny18-left.uf2 tiny18-right.uf2)
+          for file in "${expected[@]}"; do
+            test -s "dist/${file}"
+          done
+          cd dist
+          sha256sum "${expected[@]}" > SHA256SUMS
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh release create "${GITHUB_REF_NAME}"
+          dist/settings-reset.uf2
+          dist/tiny18-left.uf2
+          dist/tiny18-right.uf2
+          dist/SHA256SUMS
+          --repo "${GITHUB_REPOSITORY}"
+          --title "Tiny18 firmware ${GITHUB_REF_NAME}"
+          --generate-notes
+
