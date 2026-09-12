@@ -78,8 +78,7 @@ jobs:
         working-directory: ${{ env.base_dir }}/zmk/app
         run: |
           export ZMK_BUILD_DIR="${{ env.base_dir }}/build"
-          export ZMK_EXTRA_MODULES="${GITHUB_WORKSPACE}"
-          west test "${GITHUB_WORKSPACE}/tests/tiny18"
+          ./run-test.sh "${GITHUB_WORKSPACE}/tests/tiny18"
 
       - name: Archive native test logs
         if: ${{ always() }}

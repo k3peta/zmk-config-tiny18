@@ -8,8 +8,7 @@ compares the emitted HID key events with a checked-in snapshot.
 Run the suite from a Linux ZMK workspace:
 
 ```sh
-ZMK_EXTRA_MODULES=/path/to/zmk-config-tiny18 \
-  west test /path/to/zmk-config-tiny18/tests/tiny18
+./run-test.sh /path/to/zmk-config-tiny18/tests/tiny18
 ```
 
 The GitHub Actions firmware workflow runs this suite in ZMK's official Zephyr

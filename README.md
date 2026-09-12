@@ -66,8 +66,7 @@ The firmware workflow also runs the production `config/tiny18.keymap` on ZMK's `
 Run the same suite from a Linux ZMK workspace:
 
 ```sh
-ZMK_EXTRA_MODULES=/path/to/zmk-config-tiny18 \
-  west test /path/to/zmk-config-tiny18/tests/tiny18
+./run-test.sh /path/to/zmk-config-tiny18/tests/tiny18
 ```
 
 This validates keymap logic, not physical GPIO wiring, split BLE radio behavior, batteries, bootloader behavior, or the physical RGB LEDs. Those remain real-device checks.

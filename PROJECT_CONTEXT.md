@@ -26,7 +26,7 @@ updated: 2026-09-12
 - セットアップ: GitHub Actionsまたは互換ZMKビルド環境を用いる。
 - 起動: XIAO nRF52840をブートローダーモードにして該当UF2を書き込む。
 - テスト: 左右接続、Bluetooth、IME切替コンボ、各レイヤー、ZMK Studioを実機確認する。
-- 論理テスト: LinuxのZMKワークスペースで `ZMK_EXTRA_MODULES=/path/to/zmk-config-tiny18 west test /path/to/zmk-config-tiny18/tests/tiny18` を実行する。
+- 論理テスト: LinuxのZMKワークスペースの `zmk/app` で `./run-test.sh /path/to/zmk-config-tiny18/tests/tiny18` を実行する。
 - パッケージ: タグ付きGitHub Releaseを正規配布物とし、ローカル試作はartifact_rootへ置く。
 
 ## 重要な判断
