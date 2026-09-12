@@ -1,0 +1,17 @@
+#include <dt-bindings/zmk/kscan_mock.h>
+#define TINY18_NATIVE_TEST
+#include "../../../config/tiny18.keymap"
+
+&kscan {
+    rows = <1>;
+    columns = <18>;
+    events = <
+        /* O + Enter activates layer 5. Position 6 is a test-only no-op there. */
+        ZMK_MOCK_PRESS(0, 5, 10)
+        ZMK_MOCK_PRESS(0, 13, 10)
+        ZMK_MOCK_PRESS(0, 6, 10)
+        ZMK_MOCK_RELEASE(0, 6, 10)
+        ZMK_MOCK_RELEASE(0, 5, 10)
+        ZMK_MOCK_RELEASE(0, 13, 100)
+    >;
+};

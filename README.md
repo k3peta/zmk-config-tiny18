@@ -38,13 +38,17 @@ For a first installation, or if the halves or host no longer pair correctly:
 
 The canonical keymap is [`config/tiny18.keymap`](config/tiny18.keymap). The repository's release automation builds that file without modifying it.
 
+On the split firmware, pressing G and N together produces X. The former D and Z combo for X has been removed.
+
 ![Tiny18 default keymap](keymap-drawer/tiny18.svg)
 
 The keymap includes six layers, Japanese/English input switching combos, modifiers, Bluetooth profile selection, and ZMK Studio support. See the source file for the exact bindings and combo definitions.
 
 ## Build from source
 
-GitHub Actions builds the three images automatically when firmware-related files change. The build is pinned to ZMK `v0.3.0` and `zmk-rgbled-widget` `v0.3.0` so a given commit remains reproducible.
+GitHub Actions builds the three images automatically when firmware-related files change. The build is pinned to ZMK main snapshot `6e2ef41` (2026-08-10, Zephyr 4.1/HWMv2, pre-v0.4) and the matching `zmk-rgbled-widget` snapshot `e6b4677`. It does not float with either main branch, so a given Tiny18 commit remains reproducible. The keymap diagram workflow is pinned to keymap-drawer `v0.23.0`.
+
+The latest stable ZMK release is still `v0.3.0`; this repository intentionally uses a newer development snapshot to follow the current XIAO board model. Treat a build as a preview until the GitHub Actions build and real-device checks have passed.
 
 To build a fork:
 
@@ -54,6 +58,19 @@ To build a fork:
 4. Push the change and download the `firmware` artifact from the completed workflow run.
 
 Actions artifacts are intended for testing and expire. Maintainers publish permanent downloads by pushing a version tag such as `v1.0.0`; [`release.yml`](.github/workflows/release.yml) builds that exact tag, creates checksums, and attaches the UF2 files to a GitHub Release.
+
+### Native keymap tests
+
+The firmware workflow also runs the production `config/tiny18.keymap` on ZMK's `native_sim` target. The suite checks all 18 base keys, alpha combos, IME/modifier combos, representative outputs across every layer, and the layer 5 activation path against expected HID event snapshots. Test cases live in `tests/tiny18/`.
+
+Run the same suite from a Linux ZMK workspace:
+
+```sh
+ZMK_EXTRA_MODULES=/path/to/zmk-config-tiny18 \
+  west test /path/to/zmk-config-tiny18/tests/tiny18
+```
+
+This validates keymap logic, not physical GPIO wiring, split BLE radio behavior, batteries, bootloader behavior, or the physical RGB LEDs. Those remain real-device checks.
 
 ### Build matrix
 
@@ -71,6 +88,7 @@ Actions artifacts are intended for testing and expire. Maintainers publish perma
 | `config/tiny18_*.conf` | Per-half ZMK configuration |
 | `boards/shields/tiny18/` | Tiny18 shield and direct-pin hardware definition |
 | `build.yaml` | Firmware build matrix and stable artifact names |
+| `tests/tiny18/` | ZMK native simulator keymap tests and HID snapshots |
 | `keymap-drawer/` | Generated keymap diagram |
 | `.github/workflows/build.yml` | Continuous build and diagram generation |
 | `.github/workflows/release.yml` | Permanent, tagged firmware releases |
@@ -82,3 +100,7 @@ PCB production files, BOM, and fabrication notes are in the [Tiny18 hardware rep
 ## License
 
 Tiny18-specific firmware configuration and shield files are licensed under the [MIT License](LICENSE). ZMK and external modules are separate projects and retain their respective licenses.
+
+## Standalone one-hand firmware
+
+`tiny18-standalone-left.uf2` and `tiny18-standalone-right.uf2` each run as an independent 9-key USB/BLE keyboard with USB ZMK Studio support and no split transport. Both start with keys 1 through 9 on the base layer for remapping. See the [standalone guide (Japanese)](docs/standalone.ja.md) for layouts, layer controls, and flashing instructions.

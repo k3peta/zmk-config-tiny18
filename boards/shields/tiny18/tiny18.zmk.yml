@@ -3,6 +3,6 @@ id: tiny18
 name: tiny18
 type: shield
 url: https://github.com/k3peta/zmk-config-tiny18
-requires: [seeeduino_xiao_ble]
+requires: [seeed_xiao]
 features:
   - keys

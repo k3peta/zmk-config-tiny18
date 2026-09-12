@@ -157,7 +157,7 @@ combos:
 - p: [3, 4, 5]
   k: RCTRL
   l: [default, '1', '2', '3', '4']
-- p: [14, 8]
+- p: [15, 16]
   k: X
   l: [default]
 - p: [15, 9]

@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   build:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3.0
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@6e2ef41e022d555b10f116e395832913f71717b3
 
   release:
     needs: build
@@ -28,7 +28,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          expected=(settings-reset.uf2 tiny18-left.uf2 tiny18-right.uf2)
+          expected=(settings-reset.uf2 tiny18-left.uf2 tiny18-right.uf2 tiny18-standalone-left.uf2 tiny18-standalone-right.uf2)
           for file in "${expected[@]}"; do
             test -s "dist/${file}"
           done
@@ -43,8 +43,9 @@ jobs:
           dist/settings-reset.uf2
           dist/tiny18-left.uf2
           dist/tiny18-right.uf2
+          dist/tiny18-standalone-left.uf2
+          dist/tiny18-standalone-right.uf2
           dist/SHA256SUMS
           --repo "${GITHUB_REPOSITORY}"
           --title "Tiny18 firmware ${GITHUB_REF_NAME}"
           --generate-notes
-

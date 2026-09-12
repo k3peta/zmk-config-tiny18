@@ -10,6 +10,7 @@ on:
       - "build.yaml"
       - ".github/workflows/build.yml"
       - "keymap_drawer.config.yaml"
+      - "tests/tiny18/**"
   pull_request:
     paths:
       - "config/**"
@@ -18,6 +19,7 @@ on:
       - "build.yaml"
       - ".github/workflows/build.yml"
       - "keymap_drawer.config.yaml"
+      - "tests/tiny18/**"
 
 permissions:
   contents: read
@@ -28,10 +30,67 @@ concurrency:
 
 jobs:
   build:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3.0
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@6e2ef41e022d555b10f116e395832913f71717b3
+
+  native-tests:
+    name: Native keymap tests
+    runs-on: ubuntu-latest
+    container:
+      image: docker.io/zmkfirmware/zmk-build-arm:4.1
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Prepare isolated west workspace
+        run: |
+          base_dir="${RUNNER_TEMP}/tiny18-zmk-tests"
+          mkdir -p "${base_dir}/config"
+          cp -R config/. "${base_dir}/config/"
+          echo "base_dir=${base_dir}" >> "${GITHUB_ENV}"
+
+      - name: Cache west modules
+        uses: actions/cache@v6
+        continue-on-error: true
+        with:
+          path: |
+            ${{ env.base_dir }}/modules/
+            ${{ env.base_dir }}/tools/
+            ${{ env.base_dir }}/zephyr/
+            ${{ env.base_dir }}/bootloader/
+            ${{ env.base_dir }}/zmk/
+          key: ${{ runner.os }}-tiny18-native-${{ hashFiles('config/west.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-tiny18-native-
+
+      - name: Initialize west workspace
+        working-directory: ${{ env.base_dir }}
+        run: west init -l "${{ env.base_dir }}/config"
+
+      - name: Update west modules
+        working-directory: ${{ env.base_dir }}
+        run: west update --fetch-opt=--filter=tree:0
+
+      - name: Export Zephyr CMake package
+        working-directory: ${{ env.base_dir }}
+        run: west zephyr-export
+
+      - name: Run Tiny18 native simulator tests
+        working-directory: ${{ env.base_dir }}/zmk/app
+        run: |
+          export ZMK_BUILD_DIR="${{ env.base_dir }}/build"
+          export ZMK_EXTRA_MODULES="${GITHUB_WORKSPACE}"
+          west test "${GITHUB_WORKSPACE}/tests/tiny18"
+
+      - name: Archive native test logs
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: tiny18-native-test-logs
+          path: ${{ env.base_dir }}/build/**/*.log
+          if-no-files-found: ignore
 
   draw:
-    uses: caksoylar/keymap-drawer/.github/workflows/draw-zmk.yml@v0.22.1
+    uses: caksoylar/keymap-drawer/.github/workflows/draw-zmk.yml@v0.23.0
     permissions:
       contents: write
     with:

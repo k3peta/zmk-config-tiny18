@@ -1,0 +1,39 @@
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/outputs.h>
+
+/ {
+    combos {
+        compatible = "zmk,combos";
+        solo_menu {
+            timeout-ms = <35>;
+            bindings = <&mo 6>;
+            key-positions = <0 2>;
+        };
+    };
+    keymap {
+        compatible = "zmk,keymap";
+        default_layer {
+            bindings = <&kp N1  &kp N2  &kp N3  &kp N4  &kp N5  &kp N6  &kp N7  &kp N8  &kp N9>;
+        };
+        layer_1 {
+            bindings = <&kp SINGLE_QUOTE  &kp BACKSLASH  &kp EQUAL  &kp LEFT_BRACKET  &kp RIGHT_BRACKET  &kp COMMA  &kp PERIOD  &kp SEMICOLON  &kp MINUS>;
+        };
+        layer_2 {
+            bindings = <&trans  &kp LEFT_SHIFT  &kp RIGHT_GUI  &kp ESCAPE  &trans  &kp DEL  &kp RIGHT_ARROW  &kp TAB  &kp LEFT>;
+        };
+        layer_3 {
+            bindings = <&kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp N7  &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6  &kp N8  &kp N9>;
+        };
+        layer_4 {
+            bindings = <&kp F1  &kp F2  &kp F3  &kp F7  &kp F4  &kp F5  &kp F6  &kp F8  &kp F9>;
+        };
+        layer_5 {
+            bindings = <&bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &bt BT_CLR  &out OUT_USB  &out OUT_BLE  &to 0>;
+        };
+        solo_menu_layer {
+            bindings = <&trans &none &trans &to 0 &to 1 &to 2 &to 3 &to 4 &to 5>;
+        };
+    };
+};

@@ -8,10 +8,12 @@ manifest:
   projects:
     - name: zmk
       remote: zmkfirmware
-      revision: v0.3.0
+      # ZMK main snapshot from 2026-08-10 (Zephyr 4.1 / HWMv2, pre-v0.4).
+      revision: 6e2ef41e022d555b10f116e395832913f71717b3
       import: app/west.yml
     - name: zmk-rgbled-widget
       remote: caksoylar
-      revision: v0.3.0
+      # Matching module snapshot; the module's main branch targets ZMK main.
+      revision: e6b467792a1dabef8cfa5c9fd26bfefc9c16662b
   self:
     path: config

@@ -1,0 +1,8 @@
+file_format: "1"
+id: tiny18_standalone
+name: Tiny18 Standalone
+url: https://github.com/k3peta/zmk-config-tiny18
+type: shield
+requires: [seeed_xiao]
+features: [keys, studio]
+siblings: [tiny18_standalone_l, tiny18_standalone_r]

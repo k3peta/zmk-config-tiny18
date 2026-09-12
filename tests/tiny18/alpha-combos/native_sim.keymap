@@ -1,0 +1,37 @@
+#include <dt-bindings/zmk/kscan_mock.h>
+#define TINY18_NATIVE_TEST
+#include "../../../config/tiny18.keymap"
+
+&kscan {
+    rows = <1>;
+    columns = <18>;
+    events = <
+        /* Q: E + W */
+        ZMK_MOCK_PRESS(0, 1, 10) ZMK_MOCK_PRESS(0, 0, 10)
+        ZMK_MOCK_RELEASE(0, 1, 10) ZMK_MOCK_RELEASE(0, 0, 100)
+        /* F: T + S */
+        ZMK_MOCK_PRESS(0, 9, 10) ZMK_MOCK_PRESS(0, 7, 10)
+        ZMK_MOCK_RELEASE(0, 9, 10) ZMK_MOCK_RELEASE(0, 7, 100)
+        /* Y: H + T */
+        ZMK_MOCK_PRESS(0, 10, 10) ZMK_MOCK_PRESS(0, 9, 10)
+        ZMK_MOCK_RELEASE(0, 10, 10) ZMK_MOCK_RELEASE(0, 9, 100)
+        /* P: I + O */
+        ZMK_MOCK_PRESS(0, 4, 10) ZMK_MOCK_PRESS(0, 5, 10)
+        ZMK_MOCK_RELEASE(0, 4, 10) ZMK_MOCK_RELEASE(0, 5, 100)
+        /* B: D + T */
+        ZMK_MOCK_PRESS(0, 8, 10) ZMK_MOCK_PRESS(0, 9, 10)
+        ZMK_MOCK_RELEASE(0, 8, 10) ZMK_MOCK_RELEASE(0, 9, 100)
+        /* J: H + K */
+        ZMK_MOCK_PRESS(0, 10, 10) ZMK_MOCK_PRESS(0, 11, 10)
+        ZMK_MOCK_RELEASE(0, 10, 10) ZMK_MOCK_RELEASE(0, 11, 100)
+        /* X: G + N */
+        ZMK_MOCK_PRESS(0, 15, 10) ZMK_MOCK_PRESS(0, 16, 10)
+        ZMK_MOCK_RELEASE(0, 15, 10) ZMK_MOCK_RELEASE(0, 16, 100)
+        /* C: G + T */
+        ZMK_MOCK_PRESS(0, 15, 10) ZMK_MOCK_PRESS(0, 9, 10)
+        ZMK_MOCK_RELEASE(0, 15, 10) ZMK_MOCK_RELEASE(0, 9, 100)
+        /* V: N + H */
+        ZMK_MOCK_PRESS(0, 16, 10) ZMK_MOCK_PRESS(0, 10, 10)
+        ZMK_MOCK_RELEASE(0, 16, 10) ZMK_MOCK_RELEASE(0, 10, 100)
+    >;
+};

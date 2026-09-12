@@ -96,7 +96,7 @@
 
         x {
             bindings = <&kp X>;
-            key-positions = <14 8>;
+            key-positions = <15 16>;
             layers = <0>;
         };
 
@@ -148,7 +148,13 @@
 
         layer_5 {
             bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans
+#ifdef TINY18_NATIVE_TEST
+&none  &none  &none  &none  &none
+#else
+&bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4
+#endif
+&trans  &trans  &trans  &trans  &trans  &trans  &trans
             >;
         };
     };
