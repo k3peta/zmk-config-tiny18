@@ -1,0 +1,39 @@
+layout: {zmk_keyboard: tiny18_standalone_l}
+layers:
+  default: ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+  '1': ['''', \, '=', '[', ']', ',', ., ;, '-']
+  '2':
+  - {t: ▽, type: trans}
+  - LEFT SHIFT
+  - RIGHT GUI
+  - ESCAPE
+  - {t: ▽, type: trans}
+  - DEL
+  - RIGHT ARROW
+  - TAB
+  - LEFT
+  '3': ['1', '2', '3', '7', '4', '5', '6', '8', '9']
+  '4': [F1, F2, F3, F7, F4, F5, F6, F8, F9]
+  '5':
+  - {t: BT, h: '0'}
+  - {t: BT, h: '1'}
+  - {t: BT, h: '2'}
+  - {t: BT, h: '3'}
+  - {t: BT, h: '4'}
+  - BT CLR
+  - OUT USB
+  - OUT BLE
+  - {t: default, h: toggle}
+  solo_menu:
+  - {type: held}
+  - ''
+  - {type: held}
+  - {t: default, h: toggle}
+  - {t: '1', h: toggle}
+  - {t: '2', h: toggle}
+  - {t: '3', h: toggle}
+  - {t: '4', h: toggle}
+  - {t: '5', h: toggle}
+combos:
+- p: [0, 2]
+  k: solo_menu
